@@ -1,0 +1,76 @@
+services:
+  # Nginx Proxy Manager service
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    ports:
+      - "8090:81"
+      - "80:80"
+    env_file:
+      - backend/.env
+    volumes:
+      - data:/data
+      - letsencrypt:/etc/letsencrypt
+      - /full/path/to/nginx.dev.conf:/data/nginx/custom/http_top.conf
+    depends_on:
+      - frontend
+      - backend
+      - db
+      - adminer
+    networks:
+      - my_bridge_network
+   
+  db:
+    image: postgres:13
+    env_file:
+      - backend/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_bridge_network
+
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - backend/.env  # Load environment variables from the .env file in the backend folder
+    depends_on:
+      - db
+    networks:
+      - my_bridge_network
+
+  # Frontend service using Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    env_file:
+      - frontend/.env
+    networks:
+      - my_bridge_network
+
+  # Adminer service for database management
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"  # Map port 8080 of the host to port 8080 of the container
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+      ADMINER_DEFAULT_DRIVER: pgsql
+
+networks:
+  my_bridge_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  data:
+  letsencrypt:
+  nginx-proxy-manager-data:

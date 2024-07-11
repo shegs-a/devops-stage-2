@@ -9,6 +9,8 @@ This directory contains the frontend of the application built with ReactJS and C
 
 ## Setup Instructions
 
+To set up the frontend of the application, follow these steps:
+
 1. **Navigate to the frontend directory**:
     ```sh
     cd frontend
@@ -26,4 +28,7 @@ This directory contains the frontend of the application built with ReactJS and C
 
 4. **Configure API URL**:
    Ensure the API URL is correctly set in the `.env` file.
+   - Create a `.env` file in the frontend directory of the project.
+   - Open the `.env` file and set the `VITE_API_URL` variable to `http://localhost:8000`.
+   
 
