@@ -100,19 +100,21 @@ For more detailed information on setting up the frontend and backend application
    - Username: `admin@example.com`
    - Password: `changeme`
 
-10. Setup an SSL certificate for your domain name using the Let's Encrypt service. Naviagte to the `SSL` tab and follow the instructions to generate a new SSL certificate for your domain name.
+10. Change the admin password.
 
-11. Once the SSL certificate is generated, add new proxy hosts for your domain name in the Nginx Proxy Manager. For the frontend application, you will need to add a New Proxy Host with the following settings:
+11. Setup an SSL certificate for your domain name using the Let's Encrypt service. Naviagte to the `SSL` tab and follow the instructions to generate a new SSL certificate for your domain name.
+
+12. Once the SSL certificate is generated, add new proxy hosts for your domain name in the Nginx Proxy Manager. For the frontend application, you will need to add a New Proxy Host with the following settings:
    - Domain Name: `your-custom-domain-name`
    - Scheme: `http`
    - Forward Hostname / IP: `your_frontend_docker_ip` # Replace with the IP address of the frontend container
    - Forward Port: `5173` 
 
-12. To ensuure that the frontend and backend applications are running on the same port, you will need to add custom locations to the new proxy host you just created. Navigate to the `Custom locations` tab and add the following custom locations: 
+13. To ensuure that the frontend and backend applications are running on the same port, you will need to add custom locations to the new proxy host you just created. Navigate to the `Custom locations` tab and add the following custom locations: 
    - Location: `/api`   
    - Scheme: `http`
    - Forward Hostname / IP: `your_backend_docker_container_name` # Replace with the name of the backend container
    - Forward Port: `8000`
    Do this for the `backend/docs` and `backend/redocs` custom locations as well.
 
-13. Your application should now be fully configured and running on your server. You can access the frontend application by visiting `http://your-custom-domain-name` in your browser.
+14. Your application should now be fully configured and running on your server. You can access the frontend application by visiting `http://your-custom-domain-name` in your browser.
